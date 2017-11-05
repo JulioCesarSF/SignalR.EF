@@ -1,0 +1,39 @@
+﻿@model SignalR.EF.Models.Produto
+@{
+    ViewBag.Title = "Cadastrar Produto";
+}
+
+<h2>Cadastrar</h2>
+
+@if(TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="alert alert-info">
+                <p>@TempData["msg"].ToString()</p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                @Html.LabelFor(p=>p.Nome)
+                @Html.TextBoxFor(p=>p.Nome, new { @class="form-control" })
+                @Html.ValidationMessageFor(p=>p.Nome)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(p => p.Valor)
+                @Html.TextBoxFor(p => p.Valor, new { @class = "form-control" })
+                @Html.ValidationMessageFor(p => p.Valor)
+            </div>
+
+            <div class="form-group">
+                <input type="submit" name="btnSalvar" value="Salvar" class="btn btn-success" />
+            </div>
+        }
+    </div>
+</div>

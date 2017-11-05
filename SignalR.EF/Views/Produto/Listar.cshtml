@@ -1,0 +1,44 @@
+﻿@model IList<SignalR.EF.Models.Produto>
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Lista de Produtos</h2>
+<div class="row">
+    <div class="col-xs-12">
+        @Html.Partial("_tabelaProdutos", Model)
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //objeto de proxy do signalr
+            var prodHub = $.connection.produtoHubSignalR;                              
+
+            //atualizar tabela com a notificação
+            prodHub.client.notificarClientes = function () {
+                atualizar();
+            }
+
+            //conectar cliente no hub
+            $.connection.hub.start();
+
+        });
+
+        function atualizar() {
+             $.ajax({
+                    url: '@Url.Action("AtualizarTabela")',
+                    contentType: 'application/html',
+                    type: 'GET',
+                    success: function (data) {                        
+                        $('#tabelaProdutos').html(data);
+                    }
+             });
+        }
+    </script>
+}
